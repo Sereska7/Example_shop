@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
@@ -13,8 +14,8 @@ if TYPE_CHECKING:
     from .basket import Basket
 
 
-class User(IntIdPkMixin, Base):
-    username: Mapped[str] = mapped_column(unique=True)
+class Profile(IntIdPkMixin, Base):
+    email: Mapped[str] = mapped_column(String(50))
+    password: Mapped[str] = mapped_column(String(30))
 
-    basket: Mapped[list["Basket"]] = relationship(back_populates="user")
-
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), unique=True)
